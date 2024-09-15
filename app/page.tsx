@@ -1,5 +1,4 @@
 "use client"
-// import { useState } from "react";
 import Link from "next/link";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 
