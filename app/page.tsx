@@ -6,8 +6,7 @@ import { SidebarComponent } from "@/components/sidebar-component";
 
 const words = [
   { text: "Saving" },
-  { text: "your" },
-  { text: "ass," },
+  { text: "you," },
   { text: "one" },
   { text: "prompt", className: "text-red-500 dark:text-red-500" },
   { text: "at" },
