@@ -4,6 +4,7 @@ import { v } from "convex/values";
 export default defineSchema({
     prompts: defineTable({
         title: v.string(),
-        prompt: v.string()
+        prompt: v.string(),
+        userID: v.string(),
     })
 })

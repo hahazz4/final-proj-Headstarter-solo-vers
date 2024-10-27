@@ -38,6 +38,16 @@ function ImprovedPrompt({imPrompt}: ImPromptType){
         <div className="p-4 mt-4 border rounded-md bg-gray-100">
             <h3 className="font-bold text-xl text-black">Improved Prompt:</h3>
             <p className="text-black">{imPrompt}</p>
+            <Button
+            // onClick={handleCopy}
+            className="bg-red-500 hover:bg-red-400 text-white font-bold w-full border-b-4 border-red-700 hover:border-red-500 rounded">
+                Copy
+            </Button>
+            <Button
+            // onClick={handleSave}
+            className="bg-red-500 hover:bg-red-400 text-white font-bold w-full border-b-4 border-red-700 hover:border-red-500 rounded">
+                Save
+            </Button>
         </div>
     );
 }
@@ -71,6 +81,7 @@ export default function GeneratePage() {
                     <h1 className="text-5xl mr-4 font-bold text-red-500">Summon</h1>
                     <h1 className="text-5xl font-bold">Your Prompt</h1>
                 </div>
+                
                 {/* Input Section */}
                 <TextareaWithButton
                 prompt={prompt}
