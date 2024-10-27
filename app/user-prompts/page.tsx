@@ -13,20 +13,20 @@ function DisplayPrompt() {
     const [updatedTitle, setUpdatedTitle] = useState("");
     const [updatedPrompt, setUpdatedPrompt] = useState("");
 
-    const handleEdit = (index: number, title: string, prompt: string) => {
+    const handleEdit = (index: number, title: string, imPrompt: string) => {
         setEditMode(index);
         setUpdatedTitle(title);
-        setUpdatedPrompt(prompt);
+        setUpdatedPrompt(imPrompt);
     };
 
     const handleSave = async (id: Id<"prompts">) => {
-        await updatePrompt({ id, title: updatedTitle, prompt: updatedPrompt });
+        await updatePrompt({ id, title: updatedTitle, imPrompt: updatedPrompt });
         setEditMode(null);
     };
 
     return (
         <div className="max-w-screen-md mx-auto p-4">
-        {dispPrompts?.map(({ _id, title, prompt }, index) => (
+        {dispPrompts?.map(({ _id, title, ogPrompt, imPrompt }, index) => (
             <div key={index} className="p-4 border rounded-md my-2">
             {editMode === index ? (
                 <>
@@ -47,9 +47,10 @@ function DisplayPrompt() {
             ) : (
                 <>
                 <h3 className="font-bold text-white text-xl">{title}</h3>
-                <p className="text-white">{prompt}</p>
+                <p className="text-white">Original Prompt: {ogPrompt}</p>
+                <p className="text-white">Improved Prompt: {imPrompt}</p>
                 <button
-                    onClick={() => handleEdit(index, title, prompt)}
+                    onClick={() => handleEdit(index, title, imPrompt)}
                     className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">
                     Edit
                 </button>

@@ -1,5 +1,5 @@
 "use client"
-import { SignIn, SignUp } from "@clerk/nextjs";
+import { SignUp } from "@clerk/nextjs";
 import { SidebarComponent } from "@/components/sidebar-component";
 import { useState } from "react";
 

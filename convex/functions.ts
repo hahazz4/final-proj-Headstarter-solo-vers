@@ -15,7 +15,8 @@ export const listPrompts = query({
 export const createPrompt = mutation({
     args: {
         title: v.string(),
-        prompt: v.string(),
+        ogPrompt: v.string(),
+        imPrompt: v.string(),
     },
     handler: async (context, args) => {
         const userIdentity = await context.auth.getUserIdentity();
@@ -25,7 +26,8 @@ export const createPrompt = mutation({
         
         await context.db.insert("prompts", {
             title: args.title,
-            prompt: args.prompt,
+            ogPrompt: args.ogPrompt,
+            imPrompt: args.imPrompt,
             userID: userIdentity.tokenIdentifier,
         });
     },
@@ -49,7 +51,7 @@ export const updatePrompt = mutation({
     args: {
         id: v.id("prompts"),
         title: v.string(),
-        prompt: v.string(),
+        imPrompt: v.string(),
     },
     handler: async (context, args) => {
         const userIdentity = await context.auth.getUserIdentity();
@@ -59,7 +61,7 @@ export const updatePrompt = mutation({
 
         await context.db.patch(args.id, {
             title: args.title,
-            prompt: args.prompt,
+            imPrompt: args.imPrompt,
         });
     },
 });

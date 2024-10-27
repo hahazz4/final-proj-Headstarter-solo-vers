@@ -8,18 +8,21 @@ import { useState } from "react";
 import { SidebarComponent } from "@/components/sidebar-component";
 
 interface TextareaWithButtonType {
-    prompt: string;
+    ogPrompt: string;
     setPrompt: React.Dispatch<React.SetStateAction<string>>;
     handleSubmit: () => void;
 }
 
-function TextareaWithButton({ prompt, setPrompt, handleSubmit }: TextareaWithButtonType) {
+function TextareaWithButton({ ogPrompt, setPrompt, handleSubmit }: TextareaWithButtonType) {
     return (
         <div className="grid w-full gap-2 mt-10">
             <Label className="text-left" htmlFor="message">
                 Your Prompt
             </Label>
-            <Textarea placeholder="Type or paste your prompt here." value={prompt} onChange={(e) => setPrompt(e.target.value)}/>
+            <Textarea 
+            placeholder="Type or paste your prompt here."
+            value={ogPrompt} 
+            onChange={(e) => setPrompt(e.target.value)}/>
             <Button
             onClick={handleSubmit}
             className="bg-red-500 hover:bg-red-400 text-white font-bold w-full border-b-4 border-red-700 hover:border-red-500 rounded">
@@ -30,17 +33,30 @@ function TextareaWithButton({ prompt, setPrompt, handleSubmit }: TextareaWithBut
 }
 
 interface ImPromptType{
+    prompt: string;
     imPrompt: string;
 }
 
-function ImprovedPrompt({imPrompt}: ImPromptType){
+function ImprovedPrompt({prompt, imPrompt}: ImPromptType){
+    const handleCopy = async() => {
+        try{
+            navigator.clipboard.writeText(imPrompt.slice(17))
+            alert("Copied Successfully!")
+        }   
+        catch(e){
+            console.error("Failed to copy text, please try again.\n", e);
+            alert("Copy Failed...")
+        }
+    }
+
     return (
         <div className="p-4 mt-4 border rounded-md bg-gray-100">
-            <h3 className="font-bold text-xl text-black">Improved Prompt:</h3>
-            <p className="text-black">{imPrompt}</p>
+            <h3 className="font-bold text-xl text-black mb-3">Improved Prompt</h3>
+            <p className="text-black">Original Prompt: {prompt}</p>
+            <p className="text-black">{imPrompt} (temporarily displaying original prompt..)</p>
             <Button
-            // onClick={handleCopy}
-            className="bg-red-500 hover:bg-red-400 text-white font-bold w-full border-b-4 border-red-700 hover:border-red-500 rounded">
+            onClick={handleCopy}
+            className="mt-5 mb-3 bg-red-500 hover:bg-red-400 text-white font-bold w-full border-b-4 border-red-700 hover:border-red-500 rounded">
                 Copy
             </Button>
             <Button
@@ -59,9 +75,10 @@ export default function GeneratePage() {
 
     const savePrompt = useMutation(api.functions.createPrompt);
     const handleSubmit = async () => {
-        const improvedPrompt = `Improved: ${prompt}`;
+        const ogPrompt = prompt;
+        const improvedPrompt = `Improved Prompt: ${ogPrompt}`; //temp displaying the original user prompt, should be doing imPrompt..
         setImPrompt(improvedPrompt);
-        await savePrompt({ title: "Generated Title", prompt: improvedPrompt });
+        await savePrompt({ title: "Test Prompt Context Title", ogPrompt: ogPrompt, imPrompt: improvedPrompt });
     };
 
     return (
@@ -76,7 +93,7 @@ export default function GeneratePage() {
             {/* Sidebar Component */}
             <SidebarComponent open={sidebarOpen} setOpen={setSidebarOpen}/>
 
-            <div id="hero" className="justify-center items-center text-center mt-[25vh]">
+            <div id="hero" className="justify-center items-center text-center mt-[20vh]">
                 <div className="flex text-center justify-center items-center">
                     <h1 className="text-5xl mr-4 font-bold text-red-500">Summon</h1>
                     <h1 className="text-5xl font-bold">Your Prompt</h1>
@@ -84,12 +101,12 @@ export default function GeneratePage() {
                 
                 {/* Input Section */}
                 <TextareaWithButton
-                prompt={prompt}
+                ogPrompt={prompt}
                 setPrompt={setPrompt}
                 handleSubmit={handleSubmit}/>
 
                 {/* Improved Prompt Display Section */}
-                {imPrompt && <ImprovedPrompt imPrompt={imPrompt}/>}
+                {imPrompt && <ImprovedPrompt prompt={prompt} imPrompt={imPrompt}/>}
             </div>
         </div>
     );
